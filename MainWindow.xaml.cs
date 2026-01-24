@@ -9,6 +9,7 @@ namespace cemu_launcher
     public partial class MainWindow : Window
     {
         ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
+
         public MainWindow()
         {
             InitializeComponent();

@@ -1,3 +1,5 @@
 <Solution>
-  <Project Path="cemu-launcher.csproj" />
+  <Project Path="cemu-launcher.csproj">
+    <Platform Solution="Debug|*" Project="x64" />
+  </Project>
 </Solution>

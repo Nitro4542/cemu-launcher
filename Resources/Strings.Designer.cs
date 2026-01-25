@@ -77,5 +77,14 @@ namespace cemu_launcher.Resources {
                 return ResourceManager.GetString("updateCheck", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Would you like to update Cemu? ähnelt.
+        /// </summary>
+        internal static string updatePrompt {
+            get {
+                return ResourceManager.GetString("updatePrompt", resourceCulture);
+            }
+        }
     }
 }

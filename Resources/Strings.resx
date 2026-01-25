@@ -123,4 +123,7 @@
   <data name="updateCheck" xml:space="preserve">
     <value>Checking for updates...</value>
   </data>
+  <data name="updatePrompt" xml:space="preserve">
+    <value>Would you like to update Cemu?</value>
+  </data>
 </root>

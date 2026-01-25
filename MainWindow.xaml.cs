@@ -26,7 +26,14 @@ namespace cemu_launcher
             bool updateAvailable = await updateCheckTask;
             MainWindowProgress.IsIndeterminate = false;
 
-            if (updateAvailable)
+            bool doUpdate = true;
+
+            if (updateAvailable && config.ask_before_update)
+            {
+                doUpdate = await Updater.PromptForUpdate();
+            }
+
+            if (updateAvailable && doUpdate)
             {
                 MainWindowLabel.Content = resourceManager.GetString("updateAvailable");
                 MainWindowProgress.IsIndeterminate = true;

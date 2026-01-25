@@ -1,12 +1,17 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
+using System.Reflection;
+using System.Resources;
+using System.Windows;
 
 namespace cemu_launcher
 {
     public class Updater
     {
         private static readonly Config config = ConfigLoader.loadConfig();
+        private static readonly ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
+
         private static readonly string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
         private static readonly string downloadPath = Path.Combine(config.download_path, "cemu-bin-windows-x64.zip");
 
@@ -22,6 +27,21 @@ namespace cemu_launcher
             }
 
             await File.WriteAllTextAsync("version.txt", await UpdateChecker.GetLatestCommit());
+        }
+
+        public static async Task<bool> PromptForUpdate()
+        {
+            var result = MessageBox.Show(resourceManager.GetString("updatePrompt"), resourceManager.GetString("updateAvailable"), MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    return true;
+                case MessageBoxResult.No:
+                    return false;
+                default:
+                    return false;
+            }
         }
 
         private static async Task DownloadCemu(IProgress<double>? progress = null)

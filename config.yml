@@ -1,3 +1,4 @@
-﻿cemu_path: cemu
+﻿ask_before_update: false
+cemu_path: cemu
 cemu_portable: true
 download_path: downloads

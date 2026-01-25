@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Resources;
 using System.Windows;
 
-namespace cemu_launcher
+namespace cemu_launcher.Helpers
 {
     public class Launcher
     {

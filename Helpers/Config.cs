@@ -2,7 +2,7 @@
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
-namespace cemu_launcher
+namespace cemu_launcher.Helpers
 {
     public class Config
     {

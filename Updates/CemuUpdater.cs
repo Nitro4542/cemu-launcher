@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using cemu_launcher.Helpers;
+using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
 

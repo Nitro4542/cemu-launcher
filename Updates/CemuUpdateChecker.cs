@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using cemu_launcher.Helpers;
+using System.IO;
 using System.Text.Json;
 
 namespace cemu_launcher.Updates

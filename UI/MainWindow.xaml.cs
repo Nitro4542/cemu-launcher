@@ -1,9 +1,10 @@
-﻿using cemu_launcher.Updates;
+﻿using cemu_launcher.Helpers;
+using cemu_launcher.Updates;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
-namespace cemu_launcher
+namespace cemu_launcher.UI
 {
     public partial class MainWindow : Window
     {

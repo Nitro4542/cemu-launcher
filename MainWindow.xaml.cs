@@ -9,21 +9,25 @@ namespace cemu_launcher
     public partial class MainWindow : Window
     {
         private static readonly ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
-        private static readonly Config config = ConfigLoader.loadConfig();
+        private static readonly Config config = ConfigLoader.LoadConfig();
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        protected override async void OnInitialized(EventArgs e)
+        protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
+            _ = InitializeAsync();
+        }
+
+        private async Task InitializeAsync()
+        {
             MainWindowLabel.Content = resourceManager.GetString("updateCheck");
 
-            Task<bool> updateCheckTask = UpdateChecker.UpdateAvailable();
             MainWindowProgress.IsIndeterminate = true;
-            bool updateAvailable = await updateCheckTask;
+            bool updateAvailable = await UpdateChecker.IsUpdateAvailableAsync();
             MainWindowProgress.IsIndeterminate = false;
 
             bool doUpdate = true;
@@ -57,8 +61,13 @@ namespace cemu_launcher
                 MainWindowProgress.IsIndeterminate = true;
             }
 
-            Process.Start(Path.Combine(config.cemu_path, "Cemu.exe"));
-            Environment.Exit(0);
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Path.Combine(config.cemu_path, "Cemu.exe"),
+                UseShellExecute = true
+            });
+
+            Application.Current.Shutdown();
         }
     }
 }

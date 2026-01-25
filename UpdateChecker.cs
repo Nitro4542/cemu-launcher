@@ -7,42 +7,52 @@ namespace cemu_launcher
 {
     public class UpdateChecker
     {
-        public static async Task<bool> UpdateAvailable()
+        private static readonly HttpClient httpClient = CreateClient();
+
+        private const string VersionFile = "version.txt";
+        private const string LatestCommitUrl = "https://api.github.com/repos/cemu-project/Cemu/commits/main";
+
+        private static HttpClient CreateClient()
         {
-            string localVersion = await GetInstalledCommit();
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.Add(
+                new ProductInfoHeaderValue("cemu-launcher", "0.0.1"));
+            return client;
+        }
+
+        public static async Task<bool> IsUpdateAvailableAsync()
+        {
+            string localVersion = await GetInstalledCommitAsync();
 
             if (localVersion == string.Empty)
             {
                 return true;
             }
 
-            string remoteVersion = await GetLatestCommit();
+            string remoteVersion = await GetLatestCommitAsync();
 
             return localVersion != remoteVersion;
         }
 
-        public static async Task<string> GetLatestCommit()
+        public static async Task<string> GetLatestCommitAsync()
         {
-            using var client = new HttpClient();
-
-            string url = "https://api.github.com/repos/cemu-project/Cemu/commits/main";
-            client.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("cemu-launcher", "0.0.1"));
-
-            string json = await client.GetStringAsync(url);
+            string json = await httpClient.GetStringAsync(LatestCommitUrl);
 
             using var doc = JsonDocument.Parse(json);
-            string? sha = doc.RootElement.GetProperty("sha").GetString();
 
-            return sha ?? string.Empty;
+            if (doc.RootElement.TryGetProperty("sha", out var shaElement))
+            {
+                return shaElement.GetString() ?? string.Empty;
+            }
+
+            return string.Empty;
         }
 
-        private static async Task<string> GetInstalledCommit()
+        private static async Task<string> GetInstalledCommitAsync()
         {
             try
             {
-                using var reader = File.OpenText("version.txt");
-                return await reader.ReadToEndAsync();
+                return await File.ReadAllTextAsync(VersionFile);
             }
             catch
             {

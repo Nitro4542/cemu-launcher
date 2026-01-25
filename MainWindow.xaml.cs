@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Resources;
 using System.Windows;
 
@@ -49,8 +47,10 @@ namespace cemu_launcher
                 MainWindowProgress.IsIndeterminate = true;
             }
 
-            Process.Start(Path.Combine("cemu", "Cemu.exe"));
-            Environment.Exit(0);
+            MainWindowProgress.IsIndeterminate = true;
+
+            //Process.Start(Path.Combine("cemu", "Cemu.exe"));
+            //Environment.Exit(0);
         }
     }
 }

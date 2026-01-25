@@ -8,7 +8,8 @@ namespace cemu_launcher
 {
     public partial class MainWindow : Window
     {
-        ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
+        private static readonly ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
+        private static readonly Config config = ConfigLoader.loadConfig();
 
         public MainWindow()
         {
@@ -49,7 +50,7 @@ namespace cemu_launcher
                 MainWindowProgress.IsIndeterminate = true;
             }
 
-            Process.Start(Path.Combine("cemu", "Cemu.exe"));
+            Process.Start(Path.Combine(config.cemu_path, "Cemu.exe"));
             Environment.Exit(0);
         }
     }

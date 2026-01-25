@@ -6,9 +6,9 @@ namespace cemu_launcher
 {
     public class Updater
     {
+        private static readonly Config config = ConfigLoader.loadConfig();
         private static readonly string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
-        private static readonly string downloadFolder = "downloads";
-        private static readonly string downloadPath = Path.Combine(downloadFolder, "cemu-bin-windows-x64.zip");
+        private static readonly string downloadPath = Path.Combine(config.download_path, "cemu-bin-windows-x64.zip");
 
         public static async Task InstallCemu(IProgress<double>? downloadProgress = null)
         {
@@ -16,14 +16,17 @@ namespace cemu_launcher
 
             await UnpackCemu();
 
-            Directory.CreateDirectory(Path.Combine("cemu", "portable"));
+            if (config.cemu_portable)
+            {
+                Directory.CreateDirectory(Path.Combine(config.cemu_path, "portable"));
+            }
 
             await File.WriteAllTextAsync("version.txt", await UpdateChecker.GetLatestCommit());
         }
 
         private static async Task DownloadCemu(IProgress<double>? progress = null)
         {
-            Directory.CreateDirectory(downloadFolder);
+            Directory.CreateDirectory(config.download_path);
 
             if (File.Exists(downloadPath))
             {
@@ -67,13 +70,13 @@ namespace cemu_launcher
 
         private static async Task UnpackCemu()
         {
-            string cemuPath = Path.Combine("cemu", "Cemu.exe");
+            string cemuPath = Path.Combine(config.cemu_path, "Cemu.exe");
             if (File.Exists(cemuPath))
             {
                 File.Delete(cemuPath);
             }
 
-            await ZipFile.ExtractToDirectoryAsync(downloadPath, "cemu");
+            await ZipFile.ExtractToDirectoryAsync(downloadPath, config.cemu_path);
             File.Delete(downloadPath);
         }
     }

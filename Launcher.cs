@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using cemu_launcher.Updates;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Resources;
@@ -32,7 +33,7 @@ namespace cemu_launcher
 
         public static async Task<bool> IsUpdateWantedAsync()
         {
-            bool doUpdate = await UpdateChecker.IsUpdateAvailableAsync();
+            bool doUpdate = await CemuUpdateChecker.IsUpdateAvailableAsync();
 
             if (doUpdate && config.ask_before_update)
             {

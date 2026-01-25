@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using cemu_launcher.Updates;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -39,7 +40,7 @@ namespace cemu_launcher
                         MainWindowProgress.Value = p;
                     }
                 });
-                await Updater.InstallCemu(progress);
+                await CemuUpdater.InstallCemu(progress);
             }
 
             Process.Start(new ProcessStartInfo

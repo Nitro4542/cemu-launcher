@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text.Json;
 
-namespace cemu_launcher
+namespace cemu_launcher.Updates
 {
-    public class UpdateChecker
+    public class CemuUpdateChecker
     {
         private const string LatestCommitUrl = "https://api.github.com/repos/cemu-project/Cemu/commits/main";
 

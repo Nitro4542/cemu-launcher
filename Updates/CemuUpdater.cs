@@ -2,9 +2,9 @@
 using System.IO.Compression;
 using System.Net.Http;
 
-namespace cemu_launcher
+namespace cemu_launcher.Updates
 {
-    public class Updater
+    public class CemuUpdater
     {
         private static readonly string downloadPath = Path.Combine(Launcher.config.download_path, "cemu-bin-windows-x64.zip");
 
@@ -21,7 +21,7 @@ namespace cemu_launcher
                 Directory.CreateDirectory(Path.Combine(Launcher.config.cemu_path, "portable"));
             }
 
-            await File.WriteAllTextAsync(Launcher.VersionFile, await UpdateChecker.GetLatestCommitAsync());
+            await File.WriteAllTextAsync(Launcher.VersionFile, await CemuUpdateChecker.GetLatestCommitAsync());
         }
 
         private static async Task DownloadCemu(IProgress<double>? progress = null)

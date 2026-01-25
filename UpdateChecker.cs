@@ -9,7 +9,6 @@ namespace cemu_launcher
     {
         private static readonly HttpClient httpClient = CreateClient();
 
-        private const string VersionFile = "version.txt";
         private const string LatestCommitUrl = "https://api.github.com/repos/cemu-project/Cemu/commits/main";
 
         private static HttpClient CreateClient()
@@ -52,7 +51,7 @@ namespace cemu_launcher
         {
             try
             {
-                return await File.ReadAllTextAsync(VersionFile);
+                return await File.ReadAllTextAsync(Launcher.VersionFile);
             }
             catch
             {

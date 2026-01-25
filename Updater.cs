@@ -1,9 +1,6 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Net.Http;
-using System.Reflection;
-using System.Resources;
-using System.Windows;
 
 namespace cemu_launcher
 {
@@ -11,14 +8,9 @@ namespace cemu_launcher
     {
         private static readonly HttpClient httpClient = new HttpClient();
 
-        private static readonly Config config = ConfigLoader.LoadConfig();
-        private static readonly ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
+        private static readonly string downloadPath = Path.Combine(Launcher.config.download_path, "cemu-bin-windows-x64.zip");
 
-        private const string VersionFile = "version.txt";
-        private const string CemuExe = "Cemu.exe";
-
-        private static readonly string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
-        private static readonly string downloadPath = Path.Combine(config.download_path, "cemu-bin-windows-x64.zip");
+        private const string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
 
         public static async Task InstallCemu(IProgress<double>? downloadProgress = null)
         {
@@ -26,24 +18,17 @@ namespace cemu_launcher
 
             await UnpackCemu();
 
-            if (config.cemu_portable)
+            if (Launcher.config.cemu_portable)
             {
-                Directory.CreateDirectory(Path.Combine(config.cemu_path, "portable"));
+                Directory.CreateDirectory(Path.Combine(Launcher.config.cemu_path, "portable"));
             }
 
-            await File.WriteAllTextAsync(VersionFile, await UpdateChecker.GetLatestCommitAsync());
-        }
-
-        public static async Task<bool> PromptForUpdate()
-        {
-            var result = MessageBox.Show(resourceManager.GetString("updatePrompt"), resourceManager.GetString("updateAvailable"), MessageBoxButton.YesNo, MessageBoxImage.Information);
-
-            return result == MessageBoxResult.Yes;
+            await File.WriteAllTextAsync(Launcher.VersionFile, await UpdateChecker.GetLatestCommitAsync());
         }
 
         private static async Task DownloadCemu(IProgress<double>? progress = null)
         {
-            Directory.CreateDirectory(config.download_path);
+            Directory.CreateDirectory(Launcher.config.download_path);
 
             if (File.Exists(downloadPath))
             {
@@ -86,13 +71,13 @@ namespace cemu_launcher
 
         private static async Task UnpackCemu()
         {
-            string cemuPath = Path.Combine(config.cemu_path, CemuExe);
+            string cemuPath = Path.Combine(Launcher.config.cemu_path, Launcher.CemuExecutable);
             if (File.Exists(cemuPath))
             {
                 File.Delete(cemuPath);
             }
 
-            await ZipFile.ExtractToDirectoryAsync(downloadPath, config.cemu_path);
+            await ZipFile.ExtractToDirectoryAsync(downloadPath, Launcher.config.cemu_path);
             File.Delete(downloadPath);
         }
     }

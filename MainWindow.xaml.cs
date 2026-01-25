@@ -1,16 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Reflection;
-using System.Resources;
 using System.Windows;
 
 namespace cemu_launcher
 {
     public partial class MainWindow : Window
     {
-        private static readonly ResourceManager resourceManager = new("cemu_launcher.Resources.Strings", Assembly.GetExecutingAssembly());
-        private static readonly Config config = ConfigLoader.LoadConfig();
-
         public MainWindow()
         {
             InitializeComponent();
@@ -24,23 +19,11 @@ namespace cemu_launcher
 
         private async Task InitializeAsync()
         {
-            MainWindowLabel.Content = resourceManager.GetString("updateCheck");
+            MainWindowLabel.Content = Launcher.resourceManager.GetString("updateCheck");
 
-            MainWindowProgress.IsIndeterminate = true;
-            bool updateAvailable = await UpdateChecker.IsUpdateAvailableAsync();
-            MainWindowProgress.IsIndeterminate = false;
-
-            bool doUpdate = true;
-
-            if (updateAvailable && config.ask_before_update)
+            if (await Launcher.IsUpdateWantedAsync())
             {
-                doUpdate = await Updater.PromptForUpdate();
-            }
-
-            if (updateAvailable && doUpdate)
-            {
-                MainWindowLabel.Content = resourceManager.GetString("updateAvailable");
-                MainWindowProgress.IsIndeterminate = true;
+                MainWindowLabel.Content = Launcher.resourceManager.GetString("updateAvailable");
 
                 var progress = new Progress<double>(p =>
                 {
@@ -57,13 +40,11 @@ namespace cemu_launcher
                     }
                 });
                 await Updater.InstallCemu(progress);
-
-                MainWindowProgress.IsIndeterminate = true;
             }
 
             Process.Start(new ProcessStartInfo
             {
-                FileName = Path.Combine(config.cemu_path, "Cemu.exe"),
+                FileName = Path.Combine(Launcher.config.cemu_path, Launcher.CemuExecutable),
                 UseShellExecute = true
             });
 

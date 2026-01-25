@@ -6,8 +6,6 @@ namespace cemu_launcher
 {
     public class Updater
     {
-        private static readonly HttpClient httpClient = new HttpClient();
-
         private static readonly string downloadPath = Path.Combine(Launcher.config.download_path, "cemu-bin-windows-x64.zip");
 
         private const string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
@@ -35,7 +33,7 @@ namespace cemu_launcher
                 File.Delete(downloadPath);
             }
 
-            using var response = await httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
+            using var response = await Launcher.httpClient.GetAsync(downloadUrl, HttpCompletionOption.ResponseHeadersRead);
             response.EnsureSuccessStatusCode();
 
             var contentLength = response.Content.Headers.ContentLength;

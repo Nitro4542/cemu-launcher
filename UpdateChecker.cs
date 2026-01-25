@@ -1,23 +1,11 @@
 ﻿using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace cemu_launcher
 {
     public class UpdateChecker
     {
-        private static readonly HttpClient httpClient = CreateClient();
-
         private const string LatestCommitUrl = "https://api.github.com/repos/cemu-project/Cemu/commits/main";
-
-        private static HttpClient CreateClient()
-        {
-            var client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.Add(
-                new ProductInfoHeaderValue("cemu-launcher", "0.0.1"));
-            return client;
-        }
 
         public static async Task<bool> IsUpdateAvailableAsync()
         {
@@ -35,7 +23,7 @@ namespace cemu_launcher
 
         public static async Task<string> GetLatestCommitAsync()
         {
-            string json = await httpClient.GetStringAsync(LatestCommitUrl);
+            string json = await Launcher.httpClient.GetStringAsync(LatestCommitUrl);
 
             using var doc = JsonDocument.Parse(json);
 

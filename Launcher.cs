@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Reflection;
 using System.Resources;
 using System.Windows;
 
@@ -11,6 +13,15 @@ namespace cemu_launcher
 
         public const string CemuExecutable = "Cemu.exe";
         public const string VersionFile = "version.txt";
+
+        public static readonly HttpClient httpClient = CreateHttpClient();
+
+        private static HttpClient CreateHttpClient()
+        {
+            var client = new HttpClient();
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("cemu-launcher", "0.0.1"));
+            return client;
+        }
 
         private static async Task<bool> PromptForUpdateAsync()
         {

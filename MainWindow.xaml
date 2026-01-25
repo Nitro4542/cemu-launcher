@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:cemu_launcher"
         mc:Ignorable="d"
         Title="cemu-launcher" Height="200" Width="600"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
@@ -17,6 +18,6 @@
         </Grid.ColumnDefinitions>
 
         <Label x:Name="MainWindowLabel" Grid.Row="0" Grid.Column="0" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
-        <ProgressBar x:Name="MainWindowProgress" Grid.Row="1" Grid.Column="0" Margin="16 8 16 8" Height="24" VerticalAlignment="Top"></ProgressBar>
+        <ProgressBar x:Name="MainWindowProgress" Grid.Row="1" Grid.Column="0" Margin="16 8 16 8" Height="24" VerticalAlignment="Top" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}"></ProgressBar>
     </Grid>
 </Window>

@@ -30,8 +30,8 @@ ArchitecturesAllowed=x64compatible
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
-LicenseFile=C:\cemu-launcher\innosetup\license.txt
-InfoBeforeFile=C:\cemu-launcher\innosetup\disclaimer.txt
+LicenseFile=C:\cemu-launcher\Installer\license.txt
+InfoBeforeFile=C:\cemu-launcher\Installer\disclaimer.txt
 ; Remove the following line to run in administrative install mode (install for all users).
 PrivilegesRequired=lowest
 OutputDir=C:\output

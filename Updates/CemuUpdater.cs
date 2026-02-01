@@ -45,25 +45,26 @@ namespace cemu_launcher.Updates
             }
 
             using var downloadStream = await response.Content.ReadAsStreamAsync();
-            using var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true);
+            using var fileStream = new FileStream(downloadPath, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: true);
 
-            var buffer = new byte[81920];
+            var buffer = new byte[1024 * 1024];
             long totalRead = 0;
             int read;
+
+            var lastReport = DateTime.UtcNow;
+
             while ((read = await downloadStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
             {
                 await fileStream.WriteAsync(buffer, 0, read);
                 totalRead += read;
 
-                if (contentLength.HasValue && contentLength.Value > 0)
+                if (contentLength.HasValue && contentLength.Value > 0 && DateTime.UtcNow - lastReport > TimeSpan.FromMilliseconds(250))
                 {
                     double percent = (double)totalRead / contentLength.Value * 100.0;
                     progress?.Report(Math.Clamp(percent, 0.0, 100.0));
+                    lastReport = DateTime.UtcNow;
                 }
             }
-
-            await fileStream.FlushAsync();
-            fileStream.Close();
 
             progress?.Report(100.0);
         }

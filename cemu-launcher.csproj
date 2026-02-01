@@ -10,7 +10,7 @@
     <Platforms>ARM64;x64</Platforms>
     <OutputPath>$(SolutionDir)/bin/$(Configuration)/$(Platform)/</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>0.1.0</Version>
+    <Version>0.2.1</Version>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 

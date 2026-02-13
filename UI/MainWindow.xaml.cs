@@ -1,7 +1,5 @@
 ﻿using cemu_launcher.Helpers;
 using cemu_launcher.Updates;
-using System.Diagnostics;
-using System.IO;
 using System.Windows;
 
 namespace cemu_launcher.UI
@@ -44,11 +42,7 @@ namespace cemu_launcher.UI
                 await CemuUpdater.InstallCemuAsync(progress);
             }
 
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = Path.Combine(Launcher.config.cemu_path, Launcher.CemuExecutable),
-                UseShellExecute = true
-            });
+            Launcher.LaunchCemu();
 
             Application.Current.Shutdown();
         }

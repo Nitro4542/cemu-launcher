@@ -1,4 +1,6 @@
 ﻿using cemu_launcher.Updates;
+using System.Diagnostics;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -20,7 +22,7 @@ namespace cemu_launcher.Helpers
         private static HttpClient CreateHttpClient()
         {
             var client = new HttpClient();
-            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("cemu-launcher", "0.0.1"));
+            client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("cemu-launcher", null));
             return client;
         }
 
@@ -41,6 +43,22 @@ namespace cemu_launcher.Helpers
             }
 
             return doUpdate;
+        }
+
+        public static void LaunchCemu()
+        {
+            ProcessStartInfo startInfo = new()
+            {
+                FileName = Path.Combine(config.cemu_path, CemuExecutable),
+                UseShellExecute = true
+            };
+
+            foreach (string arg in Environment.GetCommandLineArgs().Skip(1))
+            {
+                startInfo.ArgumentList.Add(arg);
+            }
+
+            Process.Start(startInfo);
         }
     }
 }

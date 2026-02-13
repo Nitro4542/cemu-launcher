@@ -11,11 +11,11 @@ namespace cemu_launcher.Updates
 
         private const string downloadUrl = "https://nightly.link/cemu-project/Cemu/workflows/build_check/main/cemu-bin-windows-x64.zip";
 
-        public static async Task InstallCemu(IProgress<double>? downloadProgress = null)
+        public static async Task InstallCemuAsync(IProgress<double>? downloadProgress = null)
         {
-            await DownloadCemu(downloadProgress);
+            await DownloadCemuAsync(downloadProgress);
 
-            await UnpackCemu();
+            await UnpackCemuAsync();
 
             if (Launcher.config.cemu_portable)
             {
@@ -25,7 +25,7 @@ namespace cemu_launcher.Updates
             await File.WriteAllTextAsync(Launcher.VersionFile, await CemuUpdateChecker.GetLatestCommitAsync());
         }
 
-        private static async Task DownloadCemu(IProgress<double>? progress = null)
+        private static async Task DownloadCemuAsync(IProgress<double>? progress = null)
         {
             Directory.CreateDirectory(Launcher.config.download_path);
 
@@ -69,7 +69,7 @@ namespace cemu_launcher.Updates
             progress?.Report(100.0);
         }
 
-        private static async Task UnpackCemu()
+        private static async Task UnpackCemuAsync()
         {
             string cemuPath = Path.Combine(Launcher.config.cemu_path, Launcher.CemuExecutable);
             if (File.Exists(cemuPath))

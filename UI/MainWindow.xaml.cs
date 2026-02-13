@@ -41,7 +41,7 @@ namespace cemu_launcher.UI
                         MainWindowProgress.Value = p;
                     }
                 });
-                await CemuUpdater.InstallCemu(progress);
+                await CemuUpdater.InstallCemuAsync(progress);
             }
 
             Process.Start(new ProcessStartInfo

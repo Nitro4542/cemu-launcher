@@ -18,6 +18,6 @@
         </Grid.ColumnDefinitions>
 
         <Label x:Name="MainWindowLabel" Grid.Row="0" Grid.Column="0" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Bottom"></Label>
-        <ProgressBar x:Name="MainWindowProgress" Grid.Row="1" Grid.Column="0" Margin="16 8 16 8" Height="24" VerticalAlignment="Top" Foreground="{DynamicResource {x:Static SystemColors.AccentColorBrushKey}}" IsIndeterminate="True"></ProgressBar>
+        <ProgressBar x:Name="MainWindowProgress" Grid.Row="1" Grid.Column="0" Margin="16 8 16 8" Height="24" VerticalAlignment="Top" IsIndeterminate="True"></ProgressBar>
     </Grid>
 </Window>

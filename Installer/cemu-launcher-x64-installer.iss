@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "cemu-launcher"
-#define MyAppVersion "0.2.1"
+#define MyAppVersion "0.3.0"
 #define MyAppPublisher "Niitroo"
 #define MyAppURL "https://codeberg.org/Niitroo/cemu-launcher"
 #define MyAppExeName "cemu-launcher.exe"

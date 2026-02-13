@@ -10,6 +10,11 @@ namespace cemu_launcher.Updates
 
         public static async Task<bool> IsUpdateAvailableAsync()
         {
+            if (!Path.Exists(Launcher.CemuPath))
+            {
+                return true;
+            }
+
             string localVersion = await GetInstalledCommitAsync();
 
             if (localVersion == string.Empty)

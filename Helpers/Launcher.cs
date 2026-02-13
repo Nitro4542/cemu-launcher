@@ -16,6 +16,7 @@ namespace cemu_launcher.Helpers
 
         public const string CemuExecutable = "Cemu.exe";
         public const string VersionFile = "version.txt";
+        public static readonly string CemuPath = Path.Combine(config.cemu_path, CemuExecutable);
 
         public static readonly HttpClient httpClient = CreateHttpClient();
 
@@ -49,7 +50,7 @@ namespace cemu_launcher.Helpers
         {
             ProcessStartInfo startInfo = new()
             {
-                FileName = Path.Combine(config.cemu_path, CemuExecutable),
+                FileName = CemuPath,
                 UseShellExecute = true
             };
 
